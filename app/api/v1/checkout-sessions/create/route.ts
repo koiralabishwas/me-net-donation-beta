@@ -50,7 +50,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     mode: "payment",
     return_url: `${req.headers.get(
       "origin"
-    )}/donationReturn?session_id={CHECKOUT_SESSION_ID}`,
+    )}/donationResult?session_id={CHECKOUT_SESSION_ID}`,
   });
 
   return NextResponse.json({

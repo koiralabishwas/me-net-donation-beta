@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       status: 200,
-      message: "Webhook processed successfully",
+      message: "Webhook processed successfully , email sent.",
     });
   } catch (error) {
     return NextResponse.json({ status: 500, message: "Server error", error });
