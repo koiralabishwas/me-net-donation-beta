@@ -1,6 +1,4 @@
 import { sendSuccesEmail } from "@/app/api-services/email";
-import { stripe } from "@/app/utils/stripe";
-import { NextApiRequest } from "next";
 import { NextResponse, NextRequest } from "next/server";
 import Stripe from "stripe";
 
@@ -9,9 +7,10 @@ import Stripe from "stripe";
  */
 export async function POST(request: NextRequest) {
   try {
-    const req = (await request.json()) as Stripe.Checkout.Session;
+    const event =
+      (await request.json()) as Stripe.CheckoutSessionCompletedEvent;
 
-    const { customer_details } = req;
+    const { customer_details } = event.data.object;
 
     if (!customer_details?.email || customer_details?.email.length === 0) {
       return NextResponse.json({
@@ -32,6 +31,6 @@ export async function POST(request: NextRequest) {
       message: "Webhook processed successfully",
     });
   } catch (error) {
-    return NextResponse.json({ status: 500, error });
+    return NextResponse.json({ status: 500, message: "Server error", error });
   }
 }
