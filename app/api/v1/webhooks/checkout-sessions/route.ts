@@ -5,6 +5,15 @@ import Stripe from "stripe";
 /**
  * checkout.session.complete用のWebhook
  */
+
+/** 
+ * webhook をlocalで動かす際には stripe cli を使う
+ * stripe listen --forward-to localhost:3000/api/v1/webhook
+ *  でローカルサーバーにフォワーディングする
+ * 
+ */
+
+
 export async function POST(request: NextRequest) {
   try {
     const event =
