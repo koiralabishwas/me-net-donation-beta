@@ -15,7 +15,7 @@ export const createPayment = async (data:any) => {
 
 // do not mistake endpoints !!!
 export const createCheckoutSession = async  (formData: FormData) => {
-  const res = await fetch("/api/v1/checkout-sessions/create", {
+  const res = await fetch("/api/v1/checkout-sessions", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
