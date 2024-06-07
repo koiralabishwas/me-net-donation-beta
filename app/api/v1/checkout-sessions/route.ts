@@ -73,7 +73,7 @@ const checPriceExistance = async (productId: string, amount: number) => {
     console.log("Price exists:", matchingPrice.id);
     return matchingPrice.id;
   } else {
-    console.log("Price not found for the given amount");
+    console.log("Price not found .... Creating New Price ");
     return undefined;
   }
 };
