@@ -1,6 +1,6 @@
-'use client';
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+"use client";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface ProductData {
   id: string;
@@ -14,21 +14,21 @@ interface ProductListProps {
 }
 
 const fetchProducts = async (): Promise<ProductData[]> => {
-  const response = await fetch('/api/v1/products');
+  const response = await fetch("/api/v1/products");
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error("Network response was not ok");
   }
   return response.json();
 };
 
 const ProductList: React.FC<ProductListProps> = ({ onProductSelect }) => {
-  const { data , isLoading, error } = useQuery<ProductData[]>({
-    queryKey: ['products'],
-    queryFn:() => fetchProducts(),
+  const { data, isLoading, error } = useQuery<ProductData[]>({
+    queryKey: ["products"],
+    queryFn: () => fetchProducts(),
   });
 
   if (isLoading) {
-    return <div className='text-white text-5xl loading-spinner'></div>;
+    return <div className="text-white text-5xl loading-spinner"></div>;
   }
 
   if (error) {
@@ -36,17 +36,20 @@ const ProductList: React.FC<ProductListProps> = ({ onProductSelect }) => {
   }
 
   return (
-    <div>
-      <p className="menu-title text-2xl text-white">Products</p>
-      {data &&  data.map((product) => (
-        <button
-          className="btn p-4 m-4 text-gray-200"
-          key={product.id}
-          onClick={() => onProductSelect(product.id)}
-        >
-          {product.name}
-        </button>
-      ))}
+    <div className="px-3">
+      <h1 className="text-2xl text-white">Products</h1>
+      <div className="flex flex-wrap gap-4">
+        {data &&
+          data.map((product) => (
+            <button
+              className="btn"
+              key={product.id}
+              onClick={() => onProductSelect(product.id)}
+            >
+              {product.name}
+            </button>
+          ))}
+      </div>
     </div>
   );
 };
