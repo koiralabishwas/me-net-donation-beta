@@ -15,7 +15,7 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
-export default function PaymentPage({ clientSecret }: Props) {
+export default function PaymentForm({ clientSecret }: Props) {
   return (
     <EmbeddedCheckoutProvider
       stripe={stripePromise}

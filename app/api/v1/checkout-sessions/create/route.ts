@@ -1,14 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
 import { z } from "zod";
 
 import { bodySchema } from "@/app/schemas/checkout-session";
+import { stripe } from "@/app/utils/stripe";
 
 type BodyInterface = z.infer<typeof bodySchema>;
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2024-04-10",
-});
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const body: BodyInterface = await req.json();

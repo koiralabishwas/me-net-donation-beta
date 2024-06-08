@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="bg-neutral h-screen">
+      <body className="bg-neutral min-h-screen">
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>

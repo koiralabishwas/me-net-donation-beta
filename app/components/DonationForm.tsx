@@ -229,13 +229,14 @@ const DonationForm = ({ productId }: Props) => {
         <button
           type="submit"
           className="btn btn-brand w-full border-none bg-brand text-white"
-          disabled={isPending}
         >
-          {isPending ? "Processing..." : "Submit"}
+          Submit
         </button>
       </form>
       {isPending && (
-        <span className="loading loading-dots loading-xl text-white justify-center" />
+        <div className="flex justify-center">
+          <span className="loading loading-dots loading-lg text-white" />
+        </div>
       )}
       <div className="hidden md:block" />
     </div>
