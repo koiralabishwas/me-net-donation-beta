@@ -1,4 +1,7 @@
+"use client"
 import { stripe } from "@/app/utils/stripe";
+import { headers } from "next/headers";
+import Link from "next/link";
 
 async function getSession(sessionId: string) {
   const session = await stripe.checkout.sessions.retrieve(sessionId);
@@ -21,10 +24,15 @@ const checkoutReturn = async ({ searchParams }: CheckoutReturnProps) => {
 
   if (session?.status === "complete") {
     return (
-      <div className="alert">
-        <h3>支払い成功</h3>
-        <p>支払いが完了しました</p>
+      <div className="text-white text-xl ">
+        <h3 className="alert">支払い成功</h3>
+        <p>支払い処理が完了しました</p>
         <p>メールにて寄付控除証明証をお送りします。</p>
+        <div className="btn btn-primary">
+          <a href="/">
+            <p>寄付ページに戻る</p>
+          </a>
+        </div>
       </div>
     );
   }

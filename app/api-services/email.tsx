@@ -34,5 +34,20 @@ export async function sendSuccesEmail({ recipient, subject, message }: Props) {
   }
 }
 
+export async function sendErrorEmail({ recipient, subject, message }: Props) {
+  const options = {
+    from: "koiralabishwas0816@gmail.com",
+    to: recipient,
+    subject: `[${process.env.ENV}] ${subject}`,
+    html: render(<Email message={message} />),
+  };
+
+  try {
+    await transporter.sendMail(options);
+  } catch (error) {
+    return NextResponse.json({ status: 500, error });
+  }
+}
+
 // TODO: sendErrorEmail
 // error credit番号でたたいて それで確認する、

@@ -1,4 +1,4 @@
-import { sendSuccesEmail } from "@/app/api-services/email";
+import { sendErrorEmail, sendSuccesEmail } from "@/app/api-services/email";
 import {stripe} from "../../utils/stripe"
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,10 +15,12 @@ export async function POST(req: NextRequest ) {
 
     console.log("event", event.type)
 
+    let customerEmail : string | undefined | null ;
+
     switch (event.type) {
       case 'checkout.session.completed':
         const checkoutSessionCompleted = event.data.object;
-        const customerEmail =  event.data.object.customer_details?.email
+         customerEmail =  event.data.object.customer_details?.email
 
         await sendSuccesEmail({
           recipient: customerEmail!,
@@ -29,7 +31,17 @@ export async function POST(req: NextRequest ) {
         // Then define and call a function to handle the event checkout.session.completed
         
         break;
-      // ... handle other event types
+
+        case 'checkout.session.expired' :
+          const checkoutSessionExpired = event.data.object;
+          customerEmail = event.data.object.customer_details?.email
+
+          await sendErrorEmail({
+            recipient : customerEmail!,
+            subject : "寄付失敗",
+            message : "セッションの期限切れにより、寄付処理が失敗しました。"
+          })
+          
       default:
         console.log(`Unhandled event type ${event.type}`);
     }

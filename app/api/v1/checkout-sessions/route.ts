@@ -51,12 +51,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
     return_url: `${req.headers.get(
       "origin"
     )}/donationResult?session_id={CHECKOUT_SESSION_ID}`,
+    expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // Configured to expire after 30 minutes
   });
 
   return NextResponse.json({
     id: session.id,
     client_secret: session.client_secret,
-    priceId
+    priceId,
   });
 }
 
