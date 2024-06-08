@@ -6,7 +6,7 @@ import { Suspense } from "react";
 
 function Payment() {
   const searchParams = useSearchParams();
-  const clientSecret = searchParams.get("client-secret");
+  const clientSecret = searchParams.get("client_secret");
 
   if (!clientSecret) {
     return <span className="text-white">Client secret not found</span>;

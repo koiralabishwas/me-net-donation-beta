@@ -54,7 +54,7 @@ const DonationForm = ({ productId }: Props) => {
   } = useMutation({
     mutationFn: createCheckoutSession,
     onSuccess: (client_secret) =>
-      router.push(`/payment?client-secret=${client_secret}`),
+      router.push(`/payment?client_secret=${client_secret}`),
     onError: (error) => console.log(error),
   });
 
