@@ -14,7 +14,7 @@ interface ProductListProps {
 }
 
 const fetchProducts = async (): Promise<ProductData[]> => {
-  const response = await fetch('/api/products');
+  const response = await fetch('/api/v1/products');
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
