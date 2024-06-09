@@ -9,7 +9,7 @@ function Payment() {
   const clientSecret = searchParams.get("client_secret");
 
   if (!clientSecret) {
-    return <span className="text-white">Client secret not found</span>;
+    return <span className="text-white alert bg-red-400">Client secret not found</span>;
   }
   return (
     <div className="bg-brand h-screen grid place-content-center">

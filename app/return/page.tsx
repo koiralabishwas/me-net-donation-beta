@@ -27,6 +27,7 @@ function Return() {
   }
 
   if (isSuccess && data.session.status === "complete")
+    console.log(data)
     return (
       <div className="grid place-content-center p-5">
         <div className="text-white bg-green-700 rounded-lg p-5">
@@ -35,7 +36,7 @@ function Return() {
           <p>
             {data.session.customer_details.name}さん、
             <br />
-            寄付ありがとうございます！
+            {data.session.amount_total}円の寄付ありがとうございます！
             <br />
             <br />
             メールにて寄付控除証明証を
@@ -44,6 +45,9 @@ function Return() {
             <br />
             <br />
             毎月の寄付の場合、毎月受信されるメールからいつでもキャンセルできます。
+            <br />
+            
+            
           </p>
         </div>
         <Link href="/">

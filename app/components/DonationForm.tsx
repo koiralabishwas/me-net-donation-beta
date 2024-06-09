@@ -19,7 +19,8 @@ export type FormData = z.infer<typeof bodySchema>;
 const DonationForm = ({ productId }: Props) => {
   const router = useRouter();
 
-  const modalRef = useRef<HTMLDialogElement>(null);
+  // const modalRef = useRef<HTMLDialogElement>(null);
+  // TODO: Modal ref is not used in this component. Shold it be removed? or used?
 
   const {
     register,
@@ -64,7 +65,7 @@ const DonationForm = ({ productId }: Props) => {
       console.log("submitted data", formData);
       try {
         await checkoutSession(formData);
-        modalRef.current?.showModal();
+        // modalRef.current?.showModal();
       } catch (error) {
         console.error("Error fetching client secret:", error);
       } finally {
