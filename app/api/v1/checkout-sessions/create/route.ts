@@ -4,6 +4,7 @@ import { z } from "zod";
 import { stripe } from "@/app/utils/stripe";
 import { requestBodySchema } from "./route.schema";
 import Stripe from "stripe";
+import { createCustomer } from "@/server/stripe";
 
 type RequestBodyInterface = z.infer<typeof requestBodySchema>;
 
@@ -17,31 +18,30 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   console.log("[body]", body)
 
-  // TODO: only create customer and price if it doesnt exist already
+  //TODO: do I neet to retrive customers 
+  const { id : customerId } = await createCustomer(customer)
 
-  const { id: customerId } = await stripe.customers.create(customer);
+          let priceId: string | undefined;
+          const existingPrice = await checkPriceExistence(product_id, price);
 
-  let priceId: string | undefined;
-  const existingPrice = await checkPriceExistence(product_id, price);
+          console.log("[existingPrice]", existingPrice)
 
-  console.log("[existingPrice]", existingPrice)
-
-  if (!existingPrice) {
-    const { id } = await stripe.prices.create({
-      product: product_id,
-      currency: "jpy",
-      // amount passed from the body
-      unit_amount: price,
-      metadata : {
-        // stripe query cannot retrive from unit_amount
-        // use this medatta.price to retrive price from amount
-        amount : price
-      }
-    });
-    priceId = id;
-  } else {
-    priceId = existingPrice.id;
-  }
+          if (!existingPrice) {
+            const { id } = await stripe.prices.create({
+              product: product_id,
+              currency: "jpy",
+              // amount passed from the body
+              unit_amount: price,
+              metadata : {
+                // stripe query cannot retrive from unit_amount
+                // use this medatta.price to retrive price from amount
+                amount : price
+              }
+            });
+            priceId = id;
+          } else {
+            priceId = existingPrice.id;
+          }
 
   const session = await stripe.checkout.sessions.create({
     ui_mode: "embedded",
@@ -94,3 +94,8 @@ const checkPriceExistence = async (productId: string, amount: number):  Promise<
   //   return undefined;
   // }
 };
+
+const fooPriceExistance = async () => {
+  
+
+}

@@ -1,5 +1,5 @@
 import { sendErrorEmail, sendSuccesEmail } from "@/app/api-services/email";
-import {stripe} from "../../utils/stripe"
+import {stripe} from "../../../utils/stripe"
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest ) {
