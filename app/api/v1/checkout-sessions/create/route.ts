@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-import { bodySchema } from "@/app/schemas/checkout-session";
 import { stripe } from "@/app/utils/stripe";
+import { requestBodySchema } from "./route.schema";
 import Stripe from "stripe";
 
-type BodyInterface = z.infer<typeof bodySchema>;
+type RequestBodyInterface = z.infer<typeof requestBodySchema>;
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const body: BodyInterface = await req.json();
-  const validation = bodySchema.safeParse(body);
+  const body: RequestBodyInterface = await req.json();
+  const validation = requestBodySchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
