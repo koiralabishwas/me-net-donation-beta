@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { bodySchema } from "@/app/schemas/checkout-session";
 import { stripe } from "@/app/utils/stripe";
+import Stripe from "stripe";
 
 type BodyInterface = z.infer<typeof bodySchema>;
 
@@ -14,22 +15,32 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   const { customer, product_id, price } = body;
 
+  console.log("[body]", body)
+
   // TODO: only create customer and price if it doesnt exist already
 
   const { id: customerId } = await stripe.customers.create(customer);
 
   let priceId: string | undefined;
-  const existingPrice = await checPriceExistance(product_id, price);
-  if (typeof existingPrice != "string") {
+  const existingPrice = await checkPriceExistence(product_id, price);
+
+  console.log("[existingPrice]", existingPrice)
+
+  if (!existingPrice) {
     const { id } = await stripe.prices.create({
       product: product_id,
       currency: "jpy",
       // amount passed from the body
       unit_amount: price,
+      metadata : {
+        // stripe query cannot retrive from unit_amount
+        // use this medatta.price to retrive price from amount
+        amount : price
+      }
     });
     priceId = id;
   } else {
-    priceId = await existingPrice;
+    priceId = existingPrice.id;
   }
 
   const session = await stripe.checkout.sessions.create({
@@ -56,20 +67,30 @@ export async function POST(req: NextRequest, res: NextResponse) {
   });
 }
 
-const checPriceExistance = async (productId: string, amount: number) => {
-  const prices = await stripe.prices.list({
-    product: productId,
-  });
+const checkPriceExistence = async (productId: string, amount: number):  Promise<Stripe.Price> => {
+  console.log("[productId]", productId, "[amount]", amount)
 
-  const matchingPrice = prices.data.find(
-    (price) => price.unit_amount === amount
-  );
+  const { data } = await stripe.prices.search({
+    query: `active:\'true\' AND product:\'${productId}\' AND metadata[\'amount\']:\'${amount}\'` 
+  })
 
-  if (matchingPrice) {
-    console.log("Price exists:", matchingPrice.id);
-    return matchingPrice.id;
-  } else {
-    console.log("Price not found .... Creating New Price ");
-    return undefined;
-  }
+  console.log("[data]", data)
+  
+  return  data[0]
+
+  // const prices = await stripe.prices.list({
+  //   product: productId,
+  // });
+
+  // const matchingPrice = prices.data.find(
+  //   (price) => price.unit_amount === amount
+  // );
+
+  // if (matchingPrice) {
+  //   console.log("Price exists:", matchingPrice.id);
+  //   return matchingPrice.id;
+  // } else {
+  //   console.log("Price not found .... Creating New Price ");
+  //   return undefined;
+  // }
 };

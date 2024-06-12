@@ -6,6 +6,8 @@ import { retrieveCheckoutSession } from "@/api-client/payments";
 import { Suspense } from "react";
 import Link from "next/link";
 
+// TODO:create schema for retrive checkout sessin Data
+
 function Return() {
   const sessionId = useSearchParams().get("session_id");
 
@@ -13,6 +15,7 @@ function Return() {
     queryKey: ["checkout-session", sessionId],
     queryFn: () => retrieveCheckoutSession(sessionId ?? ""),
     enabled: !!sessionId,
+    // only do it when there is session id
   });
 
   if (isPending)
@@ -59,6 +62,7 @@ function Return() {
 
 export default function ReturnPage() {
   return (
+    // when using useSearchParam , use clint and <Suspense>
     <Suspense>
       <Return />
     </Suspense>
