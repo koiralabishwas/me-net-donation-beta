@@ -38,6 +38,24 @@ export async function searchPrice(
   // data[o] is returned
 }
 
+
+export async function findOrCreatPrice(
+  productId: string,
+  price: number
+): Promise<Stripe.Price> {
+  const existigPrice = await searchPrice(productId, price);
+  if (existigPrice) return existigPrice;
+
+  return await createPrice({
+    product: productId,
+    currency: "jpy",
+    unit_amount: price,
+    metadata: {
+      amount: price,
+    },
+  });
+}
+
 export async function createCheckoutSession(
   createSessionParam: Stripe.Checkout.SessionCreateParams
 ): Promise<Stripe.Checkout.Session> {
