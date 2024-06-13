@@ -4,7 +4,7 @@ import { z } from "zod";
 import { stripe } from "@/app/utils/stripe";
 import { requestBodySchema } from "./route.schema";
 import Stripe from "stripe";
-import { createCustomer, findOrCreatPrice,  } from "@/server/stripe";
+import { createCheckoutSession, createCustomer, findOrCreatPrice,  } from "@/server/stripe";
 
 type RequestBodyInterface = z.infer<typeof requestBodySchema>;
 
@@ -28,8 +28,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   );
 
 
-
-  const session = await stripe.checkout.sessions.create({
+  const {id : sessionId , client_secret : sessionClienSecret } = await createCheckoutSession({
     ui_mode: "embedded",
     customer: customerId,
     payment_method_types: ["card", "konbini"],
@@ -43,12 +42,29 @@ export async function POST(req: NextRequest, res: NextResponse) {
     mode: "payment",
     return_url: `${req.headers.get(
       "origin"
-    )}/return?session_id={CHECKOUT_SESSION_ID}`,
-  });
+    )}/return?session_id={CHECKOUT_SESSION_ID}`
+  })
+
+  // const session = await stripe.checkout.sessions.create({
+  //   ui_mode: "embedded",
+  //   customer: customerId,
+  //   payment_method_types: ["card", "konbini"],
+  //   line_items: [
+  //     {
+  //       price: priceId,
+  //       quantity: 1,
+  //     },
+  //   ],
+  //   automatic_tax: { enabled: false },
+  //   mode: "payment",
+  //   return_url: `${req.headers.get(
+  //     "origin"
+  //   )}/return?session_id={CHECKOUT_SESSION_ID}`,
+  // });
 
   return NextResponse.json({
-    id: session.id,
-    client_secret: session.client_secret,
+    id: sessionId,
+    client_secret: sessionClienSecret,
     priceId,
   });
 }
