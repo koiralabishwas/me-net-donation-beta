@@ -17,13 +17,16 @@ export async function handleError<T>(
 
 export async function handleErrorWithResponse<T>(
   fn: () => Promise<T>,
-  statusCode: number,
-  errorMessage: string
-): Promise<T | NextResponse> {
+  errorMessage: string,
+  statusCode: number
+): Promise<T | NextResponse<{ status: number; message: string; }>> {
   try {
     return await fn();
   } catch (e) {
-    const message = e instanceof Error ? e.message : errorMessage;
-    return NextResponse.json({ error: message }, { status: statusCode });
+    if (e instanceof Error) {
+      return NextResponse.json({ status: 400, message: e.message });
+    } else {
+      return NextResponse.json({ status: statusCode, message: errorMessage });
+    }
   }
 }

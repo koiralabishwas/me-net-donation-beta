@@ -1,5 +1,6 @@
 import Stripe from "stripe";
-import { handleError } from "@/server/utils/error";
+import { handleError, handleErrorWithResponse } from "@/server/utils/error";
+import { NextResponse } from "next/server";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 // product は stripeの管理画面で手動絵作る
@@ -67,9 +68,10 @@ export async function createCheckoutSession(
 
 export async function retrieveCheckoutSession(
   sessionId: string
-): Promise<Stripe.Checkout.Session> {
-  return await handleError(
+): Promise<Stripe.Checkout.Session | NextResponse<{ status: number; message: string; }>> {
+  return await handleErrorWithResponse(
     () => stripe.checkout.sessions.retrieve(sessionId),
-    "An unknown error occured when retrieving session"
+    "An unknown error occurred when retrieving session",
+    400
   );
 }
