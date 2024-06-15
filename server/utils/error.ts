@@ -19,7 +19,6 @@ export async function handleErrorWithResponse<T>(
 ): Promise<T | NextResponse> {
   try {
     return await fn();
-    console.log(await fn())
   } catch (e) {
     if (e instanceof Error)
       return NextResponse.json({ status: 400, message: e.message });
