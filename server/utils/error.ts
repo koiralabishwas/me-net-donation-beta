@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 export async function handleError<T>(
   fn: () => Promise<T>,
@@ -7,26 +7,22 @@ export async function handleError<T>(
   try {
     return await fn();
   } catch (e) {
-    if (e instanceof Error) {
+    if (e instanceof Error) 
       throw new Error(e.message);
-    } else {
-      throw new Error(errorMessage);
-    }
+    throw new Error(errorMessage);
   }
 }
 
 export async function handleErrorWithResponse<T>(
   fn: () => Promise<T>,
-  errorMessage: string,
-  statusCode: number
-): Promise<T | NextResponse<{ status: number; message: string; }>> {
+  errorMessage: string
+): Promise<T | NextResponse> {
   try {
     return await fn();
+    console.log(await fn())
   } catch (e) {
-    if (e instanceof Error) {
+    if (e instanceof Error)
       return NextResponse.json({ status: 400, message: e.message });
-    } else {
-      return NextResponse.json({ status: statusCode, message: errorMessage });
-    }
+    return NextResponse.json({ status: 501, message: errorMessage });
   }
 }

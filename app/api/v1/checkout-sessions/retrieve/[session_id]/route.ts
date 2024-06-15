@@ -12,7 +12,7 @@ export async function GET(
 }
 
 //NOTE: underscore_ means this parameter is expeced !! but not used inside function .
-// the context obj is
+// the context obj is　this in json format
 // {
 //   params: {
 //     session_id: 'cs_test_a1y95JWBHwOZx8FweUejjZ1H7zFZTiElltAeNR6H8oLIyFZQibM7Z5bDYA'

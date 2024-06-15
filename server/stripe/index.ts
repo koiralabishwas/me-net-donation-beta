@@ -7,8 +7,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function createCustomer(
   createCustomerParam: Stripe.CustomerCreateParams
-): Promise<Stripe.Customer> {
-  return await handleError(
+): Promise<Stripe.Customer | NextResponse> {
+  return await handleErrorWithResponse(
     () => stripe.customers.create(createCustomerParam),
     "An unknown error occurred when creating customer"
   );
@@ -16,17 +16,18 @@ export async function createCustomer(
 
 export async function createPrice(
   createPriceParam: Stripe.PriceCreateParams
-): Promise<Stripe.Price> {
-  return await handleError(
+): Promise<Stripe.Price | NextResponse> {
+  return await handleErrorWithResponse(
     () => stripe.prices.create(createPriceParam),
     "An unknown error occurred when creating price"
   );
 }
 
+// FIXME: ここだけnextresponse つかえないかもしれない
 export async function searchPrice(
   productId: string,
   amount: number
-): Promise<Stripe.Price> {
+): Promise<Stripe.Price > {
   return (
     await handleError(
       () =>
@@ -39,11 +40,10 @@ export async function searchPrice(
   // data[o] is returned
 }
 
-
 export async function findOrCreatPrice(
   productId: string,
   price: number
-): Promise<Stripe.Price> {
+): Promise<Stripe.Price | NextResponse> {
   const existigPrice = await searchPrice(productId, price);
   if (existigPrice) return existigPrice;
 
@@ -59,8 +59,8 @@ export async function findOrCreatPrice(
 
 export async function createCheckoutSession(
   createSessionParam: Stripe.Checkout.SessionCreateParams
-): Promise<Stripe.Checkout.Session> {
-  return await handleError(
+): Promise<Stripe.Checkout.Session | NextResponse> {
+  return await handleErrorWithResponse(
     () => stripe.checkout.sessions.create(createSessionParam),
     "An unknown error occured when creating session"
   );
@@ -68,10 +68,9 @@ export async function createCheckoutSession(
 
 export async function retrieveCheckoutSession(
   sessionId: string
-): Promise<Stripe.Checkout.Session | NextResponse<{ status: number; message: string; }>> {
+): Promise<Stripe.Checkout.Session | NextResponse> {
   return await handleErrorWithResponse(
     () => stripe.checkout.sessions.retrieve(sessionId),
-    "An unknown error occurred when retrieving session",
-    400
+    "An unknown error occurred when retrieving session"
   );
 }
