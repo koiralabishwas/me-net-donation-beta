@@ -1,38 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-import { bodySchema } from "@/app/schemas/checkout-session";
 import { stripe } from "@/app/utils/stripe";
+import { requestBodySchema } from "./route.schema";
+import Stripe from "stripe";
+import { createCheckoutSession, createCustomer, findOrCreatPrice,  } from "@/server/stripe";
 
-type BodyInterface = z.infer<typeof bodySchema>;
+type RequestBodyInterface = z.infer<typeof requestBodySchema>;
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const body: BodyInterface = await req.json();
-  const validation = bodySchema.safeParse(body);
+  const body: RequestBodyInterface = await req.json();
+  const validation = requestBodySchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
   const { customer, product_id, price } = body;
 
-  // TODO: only create customer and price if it doesnt exist already
+  console.log("[body]", body);
 
-  const { id: customerId } = await stripe.customers.create(customer);
+  //TODO: do I need to retrive customers
 
-  let priceId: string | undefined;
-  const existingPrice = await checPriceExistance(product_id, price);
-  if (typeof existingPrice != "string") {
-    const { id } = await stripe.prices.create({
-      product: product_id,
-      currency: "jpy",
-      // amount passed from the body
-      unit_amount: price,
-    });
-    priceId = id;
-  } else {
-    priceId = await existingPrice;
-  }
+  const { id: customerId } = await createCustomer(customer);
 
-  const session = await stripe.checkout.sessions.create({
+  const { id: priceId }: Stripe.Price = await findOrCreatPrice(
+    product_id,
+    price
+  );
+
+
+  const {id : sessionId , client_secret : sessionClienSecret } = await createCheckoutSession({
     ui_mode: "embedded",
     customer: customerId,
     payment_method_types: ["card", "konbini"],
@@ -46,30 +42,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
     mode: "payment",
     return_url: `${req.headers.get(
       "origin"
-    )}/return?session_id={CHECKOUT_SESSION_ID}`,
-  });
+    )}/return?session_id={CHECKOUT_SESSION_ID}`
+  })
 
+  
   return NextResponse.json({
-    id: session.id,
-    client_secret: session.client_secret,
+    id: sessionId,
+    client_secret: sessionClienSecret,
     priceId,
   });
 }
-
-const checPriceExistance = async (productId: string, amount: number) => {
-  const prices = await stripe.prices.list({
-    product: productId,
-  });
-
-  const matchingPrice = prices.data.find(
-    (price) => price.unit_amount === amount
-  );
-
-  if (matchingPrice) {
-    console.log("Price exists:", matchingPrice.id);
-    return matchingPrice.id;
-  } else {
-    console.log("Price not found .... Creating New Price ");
-    return undefined;
-  }
-};

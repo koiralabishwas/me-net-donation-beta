@@ -1,20 +1,19 @@
 "use client";
-import React, { useRef, useCallback } from "react";
-import { bodySchema } from "../schemas/checkout-session";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { loadStripe } from "@stripe/stripe-js";
 import { useMutation } from "@tanstack/react-query";
 import { createCheckoutSession } from "../api-client/payments";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
+import { requestBodySchema } from "../api/v1/checkout-sessions/create/route.schema";
 
 interface Props {
   productId: string;
 }
 
-export type FormData = z.infer<typeof bodySchema>;
+export type FormData = z.infer<typeof requestBodySchema>;
 
 const DonationForm = ({ productId }: Props) => {
   const router = useRouter();
@@ -43,7 +42,7 @@ const DonationForm = ({ productId }: Props) => {
       price: 9999,
       product_id: "prod_Q2GxSqbpfzdba4",
     },
-    resolver: zodResolver(bodySchema),
+    resolver: zodResolver(requestBodySchema),
   });
 
   // react query logics
