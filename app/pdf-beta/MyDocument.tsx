@@ -4,10 +4,8 @@ import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/rendere
 
 Font.register({
   family: 'NotoSansJP',
-  src: 'https://fonts.gstatic.com/ea/notosansjp/v6/NotoSansJP-Regular.otf'
+  src: 'https://fonts.gstatic.com/s/notosansjp/v27/-F6ofjtqLzI2JPCgQBnw7HFQogg.woff2'
 });
-
-
 
 // Create styles
 const styles = StyleSheet.create({
@@ -16,12 +14,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#E4E4E4'
   },
   section: {
-    margin: 100,
-    padding: 100,
+    margin: 10,
+    padding: 10,
     flexGrow: 1
   },
   text: {
-    fontFamily: 'NotoSansJP',
+    fontFamily: 'NotoSansJP', // Ensure the correct font family is used
   },
 });
 
@@ -30,7 +28,7 @@ const MyDocument = () => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        <Text>寄付控除証明証</Text>
+        <Text>what is the</Text>
       </View>
       <View style={styles.section}>
         <Text>寄付をしたことをこちらにて</Text>
