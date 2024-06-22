@@ -1,14 +1,16 @@
 'use client'
-import React from 'react';
-import { PDFViewer } from '@react-pdf/renderer';
-import MyDocument from './MyDocument';
+import React from 'react'
+import Certificate from './Certificate'
 
-const PDFPage: React.FC = () => (
-  <div style={{ width: '100vw', height: '100vh' }}>
-    <PDFViewer width="100%" height="100%">
-      <MyDocument />
-    </PDFViewer>
-  </div>
-);
+const page = () => {
+  return (
+    <div>
+      <p>page</p>
+      <div>
+        <Certificate />
+      </div>
+    </div>
+  )
+}
 
-export default PDFPage;
+export default page
