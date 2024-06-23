@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const License = () => {
   return (
-    <div>this is the main certificateである。わかるか。</div>
-  )
-}
+    <div><br />
+      <div>this is the main certificateである。わかるか。</div>
+    <br /></div>
+  );
+};
 
-export default License
+export default License;
