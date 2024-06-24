@@ -2,9 +2,9 @@ import React from "react";
 
 const License = () => {
   return (
-    <div><br />
+    <div className="bg-red-400">
       <div>this is the main certificateである。わかるか。</div>
-    <br /></div>
+   </div>
   );
 };
 
