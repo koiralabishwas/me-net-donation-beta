@@ -35,7 +35,7 @@ const handleGeneratePdf = async () => {
         <License />
       </div>
       <div>
-        <button onClick={() => handleGeneratePdf()} className='btn'>Download Certificate</button>
+        <button className='btn' onClick={() => handleGeneratePdf()} >Download Certificate</button>
       </div>
     </div>
   )

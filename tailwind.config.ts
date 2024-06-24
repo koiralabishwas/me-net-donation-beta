@@ -5,6 +5,7 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    // "!./app/pdf-beta/**/*.{js,ts,jsx,tsx,mdx}",  // Exclusion pattern
   ],
   theme: {
     extend: {
@@ -23,4 +24,5 @@ const config: Config = {
     require("daisyui")
   ],
 };
+
 export default config;

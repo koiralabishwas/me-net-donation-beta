@@ -4,7 +4,7 @@ import Certificate from './Certificate'
 
 const page = () => {
   return (
-    <div>
+    <div >
       <p>page</p>
       <div>
         <Certificate />
