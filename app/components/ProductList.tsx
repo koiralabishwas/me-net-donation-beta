@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Button } from "./ui/button";
 
 interface ProductData {
   id: string;
@@ -38,16 +39,17 @@ const ProductList: React.FC<ProductListProps> = ({ onProductSelect }) => {
   return (
     <div className="px-3">
       <h1 className="text-2xl text-white">Products</h1>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-4 justify-center">
         {data &&
           data.map((product) => (
-            <button
-              className="btn"
+            <Button
+              variant={"default"}
+              size={"lg"}
               key={product.id}
               onClick={() => onProductSelect(product.id)}
             >
               {product.name}
-            </button>
+            </Button>
           ))}
       </div>
     </div>

@@ -8,6 +8,9 @@ import { createCheckoutSession } from "../api-client/payments";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { requestBodySchema } from "../api/v1/checkout-sessions/create/route.schema";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
 
 interface Props {
   productId: string;
@@ -75,20 +78,20 @@ const DonationForm = ({ productId }: Props) => {
   );
 
   return (
-    <div className="w-full p-2 md:grid md:grid-cols-[0.2fr,0.6fr,0.2fr] md:p-5">
-      <div className="hidden md:block" />
+    <div className="w-full p-2 md:grid md:grid-cols-[0.2fr,0.6fr,0.2fr] md:p-5  ">
+      <div className="hidden md:block " />
       <form
-        className={clsx("bg-white rounded-lg p-5", {
+        className={clsx("bg-white rounded-lg p-5 border border-gray-600", {
           hidden: !isIdle,
         })}
         onSubmit={handleSubmit(onSubmit)}
       >
         {errors.product_id?.message}
-        <input type="hidden" {...register("product_id")} value={productId} />
+        <Input type="hidden" {...register("product_id")} value={productId} />
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-black">Price</label>
-          <input
+          <Label className=" text-black">Price</Label>
+          <Input
             type="number"
             className="input input-bordered w-full"
             {...register("price", { valueAsNumber: true })}
@@ -99,10 +102,10 @@ const DonationForm = ({ productId }: Props) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">
+          <Label className=" text-gray-600">
             Name
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             className="input input-bordered w-full bg-gray-100"
             {...register("customer.name")}
@@ -115,10 +118,10 @@ const DonationForm = ({ productId }: Props) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">
+          <Label className=" text-gray-600">
             Email
-          </label>
-          <input
+          </Label>
+          <Input
             type="email"
             className="input input-bordered w-full bg-gray-100"
             {...register("customer.email")}
@@ -131,10 +134,10 @@ const DonationForm = ({ productId }: Props) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">
+          <Label className=" text-gray-600">
             Phone
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             className="input input-bordered w-full bg-gray-100"
             {...register("customer.phone")}
@@ -147,10 +150,10 @@ const DonationForm = ({ productId }: Props) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">
+          <Label className=" text-gray-600">
             Country
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             className="input input-bordered w-full bg-gray-100"
             {...register("customer.address.country")}
@@ -163,10 +166,10 @@ const DonationForm = ({ productId }: Props) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">
+          <Label className=" text-gray-600">
             Postal Code
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             className="input input-bordered w-full bg-gray-100"
             {...register("customer.address.postal_code")}
@@ -179,10 +182,10 @@ const DonationForm = ({ productId }: Props) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">
+          <Label className=" text-gray-600">
             City
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             className="input input-bordered w-full bg-gray-100"
             {...register("customer.address.city")}
@@ -195,10 +198,10 @@ const DonationForm = ({ productId }: Props) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">
+          <Label className=" text-gray-600">
             Line 1
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             className="input input-bordered w-full bg-gray-100"
             {...register("customer.address.line1")}
@@ -211,10 +214,10 @@ const DonationForm = ({ productId }: Props) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">
+          <Label className=" text-gray-600">
             Line 2
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             className="input input-bordered w-full bg-gray-100"
             {...register("customer.address.line2")}
@@ -226,12 +229,12 @@ const DonationForm = ({ productId }: Props) => {
           )}
         </div>
 
-        <button
+        <Button
           type="submit"
-          className="btn btn-brand w-full border-none bg-brand text-white"
+          className="btn btn-brand w-full border-none "
         >
           Submit
-        </button>
+        </Button>
       </form>
       {isPending && (
         <div className="flex justify-center">
