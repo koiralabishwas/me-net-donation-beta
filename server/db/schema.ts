@@ -32,3 +32,6 @@ export const donors = mysqlTable('donors', {
   updated_at : timestamp("updated_at" , {mode : "date" }).notNull().defaultNow(),
 
 })
+
+export type Donors = typeof donors
+
