@@ -7,10 +7,11 @@ CREATE TABLE `donors` (
 	`country` varchar(256),
 	`postal_code` varchar(256),
 	`address` varchar(500),
-	`amount` int,
+	`amount` int unsigned,
 	`selected_project` varchar(100),
-	`is_public` boolean,
+	`is_public` boolean DEFAULT false,
 	`display_name` varchar(300),
+	`message` varchar(1000),
 	`created_at` timestamp NOT NULL DEFAULT (now()),
 	`updated_at` timestamp NOT NULL DEFAULT (now()),
 	CONSTRAINT `donors_id` PRIMARY KEY(`id`)

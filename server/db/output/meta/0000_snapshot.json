@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "a1291c5d-a48e-4c0c-a2d1-e5dc0016e7b0",
+  "id": "c1a19c99-7948-45bf-9a33-79372421af91",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "donors": {
@@ -65,7 +65,7 @@
         },
         "amount": {
           "name": "amount",
-          "type": "int",
+          "type": "int unsigned",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -82,11 +82,19 @@
           "type": "boolean",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": false
         },
         "display_name": {
           "name": "display_name",
           "type": "varchar(300)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "message": {
+          "name": "message",
+          "type": "varchar(1000)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

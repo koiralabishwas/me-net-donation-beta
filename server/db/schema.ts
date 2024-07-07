@@ -24,10 +24,11 @@ export const donors = mysqlTable('donors', {
   country : varchar("country" , {length : 256}), //TODO: enums にしたほうがいい？
   postal_code : varchar("postal_code" , {length : 256}),
   address : varchar("address" , {length : 500}),
-  amount : int("amount" ),
+  amount : int("amount" , {unsigned : true}),
   selected_project : varchar("selected_project" , {length : 100}),
-  is_public : boolean("is_public" ),
+  is_public : boolean("is_public" ).default(false),
   display_name : varchar("display_name",{length : 300}),
+  message : varchar('message',{length : 1000}),
   created_at : timestamp("created_at" , {mode : "date" }).notNull().defaultNow(),
   updated_at : timestamp("updated_at" , {mode : "date" }).notNull().defaultNow(),
 
