@@ -18,13 +18,12 @@ const donorSchema = z.object({
   display_name: z.string().max(300),
   message: z.string().max(1000).optional(),
 });
+type DonorSchema = z.infer <typeof donorSchema>
 
 export async function GET() {
   try {
-    const database = db;
-
     // Test the connection by performing a simple query
-    const response = await database.query.donors.findMany();
+    const response = await db.query.donors.findMany();
     const result = response.map((row) => ({
       ...row,
       id: row.id.toString(),
@@ -46,9 +45,9 @@ export async function GET() {
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest ) {
   try {
-    const body = await req.json();
+    const body : DonorSchema  = await req.json();
 
     const validation = donorSchema.safeParse(body);
     if (!validation.success)
@@ -75,7 +74,7 @@ export async function POST(req: NextRequest) {
 
     const result = response.map((row) => ({
       ...row,
-      id: row.id.toString(), // Convert BigInt to string
+      id: Number(row.id), // Convert BigInt to a number to prevent type error
     }));
 
     return NextResponse.json({
