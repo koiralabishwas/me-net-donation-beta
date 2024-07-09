@@ -18,9 +18,9 @@ import { bigint, boolean, char, int, mysqlTable, timestamp, varchar } from "driz
 export const donors = mysqlTable('donors', {
   id : bigint('id' , {mode : "bigint"}).primaryKey().autoincrement(),
   checkout_session_id : varchar('checkout_session_id', {length : 500}),
-  // TODO:
-  // corporate_number:varchar,
   name : varchar('name' , {length : 256}),
+  is_corporate : boolean('is_corporate').default(false),
+  corporate_number:varchar('corporate_number',{length : 20}),
   email : varchar('email' , {length : 256}),
   phone : varchar("phone" , {length : 11}),
   country : varchar("country" , {length : 256}), //TODO: enums にしたほうがいい？

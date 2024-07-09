@@ -2,6 +2,8 @@ CREATE TABLE `donors` (
 	`id` bigint AUTO_INCREMENT NOT NULL,
 	`checkout_session_id` varchar(500),
 	`name` varchar(256),
+	`is_corporate` boolean DEFAULT false,
+	`corporate_number` varchar(20),
 	`email` varchar(256),
 	`phone` varchar(11),
 	`country` varchar(256),

@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "c1a19c99-7948-45bf-9a33-79372421af91",
+  "id": "5ab70715-1061-4905-a181-d4749af9a52d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "donors": {
@@ -24,6 +24,21 @@
         "name": {
           "name": "name",
           "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "is_corporate": {
+          "name": "is_corporate",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
+        },
+        "corporate_number": {
+          "name": "corporate_number",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
