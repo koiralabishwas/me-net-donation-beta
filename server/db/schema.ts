@@ -18,6 +18,8 @@ import { bigint, boolean, char, int, mysqlTable, timestamp, varchar } from "driz
 export const donors = mysqlTable('donors', {
   id : bigint('id' , {mode : "bigint"}).primaryKey().autoincrement(),
   checkout_session_id : varchar('checkout_session_id', {length : 500}),
+  // TODO:
+  // corporate_number:varchar,
   name : varchar('name' , {length : 256}),
   email : varchar('email' , {length : 256}),
   phone : varchar("phone" , {length : 11}),
