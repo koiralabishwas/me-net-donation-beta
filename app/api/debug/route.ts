@@ -7,6 +7,8 @@ import { z } from "zod";
 const donorSchema = z.object({
   checkout_session_id: z.string().max(500),
   name: z.string().max(256),
+  is_corporate:z.boolean(),
+  corporate_number:z.string().optional(),
   email: z.string().email().max(256),
   phone: z.string().max(11),
   country: z.string().max(256),
@@ -57,6 +59,8 @@ export async function POST(req: NextRequest ) {
       checkout_session_id: body.checkout_session_id,
       name: body.name,
       email: body.email,
+      is_corporate:body.is_corporate,
+      corporate_number:body.corporate_number,
       phone: body.phone,
       country: body.country,
       postal_code: body.postal_code,
