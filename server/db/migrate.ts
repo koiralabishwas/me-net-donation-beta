@@ -1,4 +1,4 @@
-import '@/drizzle.config.ts'
+import '@/drizzle.config'
 
 import 'dotenv/config'
 import { migrate } from 'drizzle-orm/mysql2/migrator';
