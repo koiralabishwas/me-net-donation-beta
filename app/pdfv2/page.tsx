@@ -2,13 +2,14 @@
 import React from 'react'
 import DownloadBillingTable from './DownloadBillingTable'
 import { BillingTable } from './BillingTable'
+import { Button } from '../components/ui/button'
 
 const page = () => {
   return (
-    <div>
+    <div className='flex w-full content-center'>
+      
       {/* BillingTable needs to get rendered first to render DownLoad it */}
-      {<BillingTable/> ? <div className='bg-teal-300'><DownloadBillingTable  /></div> : <p>Loading...</p> }
-      <BillingTable />
+      {<BillingTable/> ? <Button> <DownloadBillingTable  /></Button> : <p>Loading...</p> }
     </div>
   )
 }

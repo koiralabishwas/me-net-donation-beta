@@ -7,9 +7,14 @@ import {
   Document,
   StyleSheet,
   PDFDownloadLink,
+  Font,
 } from "@react-pdf/renderer";
 
 // Create styles
+Font.register({
+  family : 'Noto Sans JP',
+  src : '/fonts/NotoSansJP-Regular.ttf'
+})
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
@@ -51,7 +56,7 @@ export const BillingTable = () => (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-          <Text>Billing Subscription for the Year</Text>
+          <Text>寄付控除証明書</Text>
           <View style={styles.table}>
             {/* Table Header */}
             <View style={styles.tableRow}>
