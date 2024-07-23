@@ -9,14 +9,19 @@ import {
   PDFDownloadLink,
   Font,
 } from "@react-pdf/renderer";
+import { title } from "process";
 
 // Create styles
 Font.register({
   family : 'Noto Sans JP',
-  src : '/fonts/NotoSansJP-Regular.ttf'
+  src : '../fonts/NotoSansJP-Regular.ttf'
 })
 const styles = StyleSheet.create({
+  title : {
+    fontFamily : "Noto Sans JP"
+  },
   page: {
+    fontFamily : "Noto Sans JP",
     flexDirection: "column",
     padding: 10,
   },
@@ -26,6 +31,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   table: {
+    fontFamily : "Noto Sans JP",
     display: "flex",
     flexDirection: "column",
     width: "100%",
@@ -35,9 +41,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   tableRow: {
+    fontFamily : "Noto Sans JP",
     flexDirection: "row",
   },
   tableCol: {
+    fontFamily : "Noto Sans JP",
     width: "25%",
     borderStyle: "solid",
     borderWidth: 1,
@@ -45,6 +53,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
   },
   tableCell: {
+    fontFamily : "Noto Sans JP",
     margin: "auto",
     marginTop: 5,
     fontSize: 10,
@@ -56,7 +65,7 @@ export const BillingTable = () => (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-          <Text>寄付控除証明書</Text>
+          <Text >寄付控除証明書</Text>
           <View style={styles.table}>
             {/* Table Header */}
             <View style={styles.tableRow}>
