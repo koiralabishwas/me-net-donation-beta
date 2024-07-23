@@ -11,23 +11,27 @@ import {
 } from "@react-pdf/renderer";
 import { title } from "process";
 
+import NotoSansJp from '@app/fonts/NotoSansJP-Regular.ttf'
+
+
 // Create styles
 Font.register({
-  family : 'Noto Sans JP',
-  src : '/fonts/NotoSansJP-Regular.ttf'
+  family : 'NotoSansJP',
+  src : "/fonts/NotoSansJP-Regular.ttf"
 })
 const styles = StyleSheet.create({
   title : {
-    fontFamily : "Noto Sans JP"
   },
   page: {
     flexDirection: "column",
     padding: 10,
+
   },
   section: {
     margin: 10,
     padding: 10,
     flexGrow: 1,
+
   },
   table: {
     display: "flex",
@@ -37,9 +41,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRightWidth: 0,
     borderBottomWidth: 0,
+
   },
   tableRow: {
     flexDirection: "row",
+
   },
   tableCol: {
     width: "25%",
@@ -47,11 +53,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
+
   },
   tableCell: {
     margin: "auto",
     marginTop: 5,
     fontSize: 10,
+
   },
 });
 
@@ -60,21 +68,21 @@ export const BillingTable = () => (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-          <Text >寄付控除証明書</Text>
+          <Text style={styles.title} >寄付控除証明書</Text>
           <View style={styles.table}>
             {/* Table Header */}
             <View style={styles.tableRow}>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Month</Text>
+                <Text style={styles.tableCell}>月</Text>
               </View>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Subscription Plan</Text>
+                <Text style={styles.tableCell}>サブスクリプション情報</Text>
               </View>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Amount</Text>
+                <Text style={styles.tableCell}>金額</Text>
               </View>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Status</Text>
+                <Text style={styles.tableCell}>ステータス</Text>
               </View>
             </View>
             {/* Table Data */}
@@ -91,7 +99,7 @@ export const BillingTable = () => (
                 amount: "$10",
                 status: "Paid",
               },
-              { month: "March", plan: "Basic", amount: "$10", status: "Paid" },
+              { month: "3月", plan: "Basic", amount: "$10", status: "Paid" },
               { month: "April", plan: "Basic", amount: "$10", status: "Paid" },
               // Add more rows as needed
             ].map((item, index) => (
