@@ -1,20 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  images: {
-    domains: ['fonts.gstatic.com'],
-  },
-  // this may help ??
-  // TODO:Remove if it doesnt help
+  // webpack settings to load custom fonts
+  // file-loader must be installed
   webpack: (config, { isServer }) => {
     config.module.rules.push({
-      test: /\.(ttf|otf|eot|woff|woff2)$/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          name: '[path][name].[ext]',
+      test: /\.(ttf|eot|woff|woff2)$/,
+      use: [
+        {
+          loader: "file-loader",
+          options: {
+            name: "[name].[ext]",
+            outputPath: "static/fonts/",
+            publicPath: "/_next/static/fonts/",
+          },
         },
-      },
+      ],
     });
 
     return config;

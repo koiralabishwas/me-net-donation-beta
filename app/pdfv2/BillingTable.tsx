@@ -11,18 +11,21 @@ import {
 } from "@react-pdf/renderer";
 import { title } from "process";
 
-import NotoSansJp from '@app/fonts/NotoSansJP-Regular.ttf'
+import NotoSansJp from '@/app/fonts/NotoSansJP-Regular.ttf'
 
 
 // Create styles
 Font.register({
   family : 'NotoSansJP',
-  src : "/fonts/NotoSansJP-Regular.ttf"
+  src : NotoSansJp,
+  fontStyle : 'normal'
 })
 const styles = StyleSheet.create({
   title : {
+    fontFamily : "NotoSansJP"
   },
   page: {
+    fontFamily : "NotoSansJP",
     flexDirection: "column",
     padding: 10,
 
@@ -44,10 +47,12 @@ const styles = StyleSheet.create({
 
   },
   tableRow: {
+    fontFamily : "NotoSansJP",
     flexDirection: "row",
 
   },
   tableCol: {
+    fontFamily : "NotoSansJP",
     width: "25%",
     borderStyle: "solid",
     borderWidth: 1,
