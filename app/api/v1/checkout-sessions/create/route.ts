@@ -28,6 +28,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   );
 
 
+
   const {id : sessionId , client_secret : sessionClienSecret } = await createCheckoutSession({
     ui_mode: "embedded",
     customer: customerId,

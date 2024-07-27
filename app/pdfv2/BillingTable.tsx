@@ -73,6 +73,7 @@ export const BillingTable = () => (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
+          <Text style={styles.title} >認定NPO法人 多文化共生教育ネットワークかながわ</Text>
           <Text style={styles.title} >寄付控除証明書</Text>
           <View style={styles.table}>
             {/* Table Header */}
