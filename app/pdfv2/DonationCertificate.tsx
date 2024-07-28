@@ -24,6 +24,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
   },
+  centeredText: {
+    fontFamily: "NotoSansJP",
+    fontSize: 12,
+    marginBottom: 5,
+    textAlign: "center",
+  },
   text: {
     fontFamily: "NotoSansJP",
     fontSize: 12,
@@ -35,7 +41,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   section: {
-    marginBottom: 10,
+    margin: 10,
   },
   table: {
     display: "flex",
@@ -50,7 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   tableCol: {
-    width: "33%",
+    width: "25%",
     borderStyle: "solid",
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -66,14 +72,14 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
   },
   totalCol: {
-    width: "66%",
+    width: "75%",
     padding: 5,
     borderStyle: "solid",
     borderLeftWidth: 0,
     borderTopWidth: 0,
   },
   totalAmountCol: {
-    width: "33%",
+    width: "25%",
     padding: 5,
     borderStyle: "solid",
     borderLeftWidth: 0,
@@ -88,9 +94,17 @@ const data = {
   donorName: "山田太郎",
   totalAmount: 1123,
   details: [
-    { date: "2024/01/15", type: "サブスクリプション型", amount: 500 },
-    { date: "2024/02/20", type: "ワンタイム型", amount: 623 },
+    { id: "001", date: "2024/01/15", type: "サブスクリプション型", amount: 500 },
+    { id: "002", date: "2024/02/20", type: "ワンタイム型", amount: 623 },
   ],
+};
+
+// Format current date as ２０XX年YY月ZZ日
+const formatDate = (date : Date) => {
+  const year = date.getFullYear().toString();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  return `${year}年${month}月${day}日`;
 };
 
 const DonationCertificate = () => (
@@ -98,10 +112,13 @@ const DonationCertificate = () => (
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
         <Text style={styles.title}>寄付控除証明書</Text>
-        <Text style={styles.text}>認定NPO法人 多文化共生教育ネットワークかながわ</Text>
+        <Text style={styles.centeredText}>認定NPO法人 多文化共生教育ネットワークかながわ</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.text}>発行日付: {formatDate(new Date())}</Text>
         <Text style={styles.text}>寄付者番号: {data.donationNumber}</Text>
         <Text style={styles.text}>寄付者名: {data.donorName}</Text>
-        <Text style={styles.text}>{(new Date).getUTCFullYear()}年 寄付合計額: {data.totalAmount}円</Text>
+        <Text style={styles.text}>{new Date().getUTCFullYear()}年 寄付合計額: {data.totalAmount}円</Text>
       </View>
 
       <View style={styles.section}>
@@ -109,6 +126,9 @@ const DonationCertificate = () => (
         <View style={styles.table}>
           {/* Table Header */}
           <View style={styles.tableRow}>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>寄付ID</Text>
+            </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>寄付日付</Text>
             </View>
@@ -120,8 +140,11 @@ const DonationCertificate = () => (
             </View>
           </View>
           {/* Table Data */}
-          {data.details.map((item : any, index : any) => (
+          {data.details.map((item, index) => (
             <View style={styles.tableRow} key={index}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{item.id}</Text>
+              </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{item.date}</Text>
               </View>
@@ -147,4 +170,4 @@ const DonationCertificate = () => (
   </Document>
 );
 
-export default DonationCertificate
+export default DonationCertificate;
