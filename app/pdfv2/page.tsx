@@ -1,9 +1,9 @@
 'use client'
 import React from 'react'
 import DownloadBillingTable from './DownloadBillingTable'
-import { BillingTable } from './BillingTable'
 import { Button } from '../components/ui/button'
 import { PDFViewer } from '@react-pdf/renderer'
+import DonationCertificate from './DonationCertificate'
 
 const page = () => {
   return (
@@ -19,7 +19,7 @@ const page = () => {
       }}
     >
       <PDFViewer width="100%" height="100%">
-        <BillingTable />
+        <DonationCertificate />
       </PDFViewer>
     </div>
   )

@@ -1,9 +1,9 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import { BillingTable } from "./BillingTable";
+import DonationCertificate from "./DonationCertificate";
 
 const DownloadBillingTable= () => (
   <div>
-    <PDFDownloadLink document={<BillingTable />} fileName="billing_table.pdf">
+    <PDFDownloadLink document={<DonationCertificate />} fileName="billing_table.pdf">
       {({ blob, url, loading, error }) =>
         loading ? 'Loading document...' : 'PDFをダウンロード'
       }
