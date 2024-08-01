@@ -1,9 +1,15 @@
 'use client'
 import React from 'react'
+import dynamic from 'next/dynamic'
 import DownloadBillingTable from './DownloadBillingTable'
 import { Button } from '../components/ui/button'
-import { PDFViewer } from '@react-pdf/renderer'
 import DonationCertificate from './DonationCertificate'
+
+// import pdfViewer to render only in client side
+// SSR is not supportd and leads to error
+const PDFViewer = dynamic(() => import('@react-pdf/renderer').then(mod => mod.PDFViewer), {
+  ssr: false,
+})
 
 const page = () => {
   return (
