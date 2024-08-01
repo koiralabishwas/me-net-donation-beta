@@ -6,7 +6,7 @@ import { Button } from '../components/ui/button'
 import DonationCertificate from './DonationCertificate'
 
 // import pdfViewer to render only in client side
-// SSR is not supportd and leads to error
+// SSR is not supported and leads to error
 const PDFViewer = dynamic(() => import('@react-pdf/renderer').then(mod => mod.PDFViewer), {
   ssr: false,
 })
