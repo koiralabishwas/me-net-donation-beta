@@ -109,10 +109,14 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   logo: {
-    width: "60px",
-    height: "60px",
-    padding: 3,
-    paddingBottom: 0,
+    width: "68px",
+    height: "68px",
+  },
+  logoWrapper: {
+    paddingRight: 10,
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
   table: {
     display: "flex",
@@ -159,7 +163,7 @@ const DonationCertificate = () => (
           <Text style={styles.text}>{data.address}</Text>
           <Text style={styles.text}>{data.donorName} 様</Text>
         </View>
-        <View style={styles.rightColumn}>
+        <View style={[styles.rightColumn, styles.logoWrapper]}>
           {/* eslint-disable-next-line jsx-a11y/alt-text */}
           <Image src={MEnetLogo.src} style={styles.logo} />
         </View>
