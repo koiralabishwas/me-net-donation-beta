@@ -216,7 +216,7 @@ const DonationCertificate = () => (
           上記の寄附者から、租税特別措置法第41条の18の2第1項及び同法第66条の11の2第2項
         </Text>
         <Text style={styles.textCentered}>
-          規定する特定非営利活動に係る事業に関連する寄附に係る支出金に
+          に規定する特定非営利活動に係る事業に関連する寄附に係る支出金に
         </Text>
         <Text style={styles.textCentered}>該当することを証明いたします。</Text>
       </View>
