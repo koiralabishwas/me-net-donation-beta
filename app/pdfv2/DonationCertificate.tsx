@@ -195,16 +195,16 @@ const DonationCertificate = () => (
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>寄附者ID</Text>
               <Text style={styles.tableCell}>寄附者住所</Text>
-              <Text style={styles.tableCell}>寄附者氏名</Text>
+              <Text style={styles.tableCell}>寄附者氏名または法人名</Text>
               <Text style={styles.tableCell}>寄附者法人番号</Text>
-              <Text style={styles.tableCell}>年間寄附額</Text>
+              <Text style={styles.tableCell}>年間寄附総額</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>{data.donor_external_id}</Text>
               <Text style={styles.tableCell}>{data.address}</Text>
               <Text style={styles.tableCell}>{data.donorName}</Text>
               <Text style={styles.tableCell}>123456987</Text>
-              <Text style={styles.tableCell}>
+              <Text style={[styles.tableCell, styles.fontBold]}>
                 {numberWithCommas(totalAmount)}円
               </Text>
             </View>
