@@ -3,6 +3,7 @@ export const data = {
   donorName: "山田太郎",
   postalCode: "123-4567",
   address: "東京都中央区港区1234-5",
+  donor_external_id: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
   details: [
     {
       id: "20240115-AB12CD",

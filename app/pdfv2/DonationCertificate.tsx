@@ -135,14 +135,10 @@ const styles = StyleSheet.create({
     padding: 5,
     borderBottomStyle: "solid",
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
-    textAlign: "center",
+    borderBottomColor: "#f5f5f5",
   },
   tableCell: {
     fontSize: 10,
-  },
-  totalAmount: {
-    paddingRight: 30,
   },
 });
 
@@ -195,6 +191,38 @@ const DonationCertificate = () => (
       </View>
       <View style={styles.section}>
         <View style={styles.table}>
+          <View style={styles.tableBody}>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>寄附者ID</Text>
+              <Text style={styles.tableCell}>寄附者住所</Text>
+              <Text style={styles.tableCell}>寄附者氏名</Text>
+              <Text style={styles.tableCell}>寄附者法人番号</Text>
+              <Text style={styles.tableCell}>年間寄附額</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{data.donor_external_id}</Text>
+              <Text style={styles.tableCell}>{data.address}</Text>
+              <Text style={styles.tableCell}>{data.donorName}</Text>
+              <Text style={styles.tableCell}>123456987</Text>
+              <Text style={styles.tableCell}>
+                {numberWithCommas(totalAmount)}円
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.textCentered}>
+          上記の寄附者から、租税特別措置法第41条の18の2第1項及び同法第66条の11の2第2項
+        </Text>
+        <Text style={styles.textCentered}>
+          規定する特定非営利活動に係る事業に関連する寄附に係る支出金に
+        </Text>
+        <Text style={styles.textCentered}>該当することを証明いたします。</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.text}>◯ 寄附の内訳</Text>
+        <View style={[styles.table, styles.textCentered]}>
           {/* Table Header */}
           <View style={styles.tableHeader}>
             <View style={styles.tableCol}>
@@ -236,33 +264,6 @@ const DonationCertificate = () => (
             </View>
           ))}
         </View>
-      </View>
-      <View style={[styles.section, styles.totalAmount]}>
-        <Text style={[styles.textRight, styles.fontBold]}>
-          合計 {numberWithCommas(totalAmount)}円
-        </Text>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.textCentered}>
-          上記の金額を受領したことを証明します。
-        </Text>
-      </View>
-      <View style={[styles.section, styles.fontThin]}>
-        <Text style={styles.textCentered}>
-          （注）上記の金額は、当法人の行う特定非営利活動に係る外国につながる子どもたちの
-        </Text>
-        <Text style={styles.textCentered}>
-          ための教育・進路支援に関する事業に関連する寄附金として受領した金額であり、
-        </Text>
-        <Text style={styles.textCentered}>
-          租税特別措置法第41条の18の2第1項及び同法第66条の11の2
-        </Text>
-        <Text style={styles.textCentered}>
-          第2項に規定する特定非営利活動に係る事業に関連する寄附に係る
-        </Text>
-        <Text style={styles.textCentered}>
-          支出金に該当することを証明いたします。
-        </Text>
       </View>
       <View style={[styles.sectionBox, styles.backgroundDanger]}>
         <Text style={styles.textCentered}>
