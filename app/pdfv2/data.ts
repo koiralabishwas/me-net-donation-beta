@@ -15,7 +15,7 @@ export const data = {
     {
       id: "20240220-EF34GH",
       date: "2024/02/20",
-      type: "ワンタイム",
+      type: "一回",
       amount: 99999,
       project: "土曜教室",
     },
