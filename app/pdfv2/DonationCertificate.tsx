@@ -253,7 +253,7 @@ const DonationCertificate = () => (
       </View>
       <View style={[styles.sectionBox, styles.backgroundDanger]}>
         <Text style={styles.textCentered}>
-          寄附金の支出による税制上の優遇措置の適用を受けるためには、確定申告等が必要です
+          寄附金の支出による税制上の優遇措置の適用を受けるためには、確定申告等が必要です。
         </Text>
         <Text style={styles.textCentered}>
           申告の際、この「寄附金受領証明書」が必要となりますので、大切に保存してください。
