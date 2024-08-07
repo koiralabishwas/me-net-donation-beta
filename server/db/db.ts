@@ -13,11 +13,11 @@ import * as schema from "./schema";
 // multipleStatements : true
 
 export const dbParams = {
-  host: process.env.MYSQL_HOST!,
-  user: process.env.MYSQL_USER!,
-  database: process.env.MYSQL_DATABASE!,
-  password: process.env.MYSQL_PASSWORD!,
-  port: Number(process.env.MYSQL_PORT!),
+  host: process.env.MYSQL_HOST as string,
+  user: process.env.MYSQL_USER as string,
+  database: process.env.MYSQL_DATABASE as string,
+  password: process.env.MYSQL_PASSWORD as string,
+  port: Number(process.env.MYSQL_PORT),
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,

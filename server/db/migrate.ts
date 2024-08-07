@@ -9,4 +9,3 @@ await migrate(db, { migrationsFolder: '././output' });
 
 // Don't forget to close the connection, otherwise the script will hang
 await connection.end();
-
