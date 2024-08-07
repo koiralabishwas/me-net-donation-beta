@@ -169,6 +169,14 @@ const DonationCertificate = () => (
         </View>
       </View>
       <View style={styles.section}>
+        <Text style={styles.textRight}>認定通知書の番号 市市活第502号</Text>
+        <Text style={styles.textRight}>認定年月日 令和6年4月10日</Text>
+        <Text style={styles.textRight}>
+          神奈川県横浜市栄区小菅ヶ谷一丁目2-1
+        </Text>
+        <Text style={styles.textRight}>
+          地球市民かながわプラザ NPOなどのための事務室内
+        </Text>
         <Text style={styles.textRight}>
           認定NPO法人多文化共生教育ネットワークかながわ
         </Text>
@@ -232,6 +240,11 @@ const DonationCertificate = () => (
       <View style={[styles.section, styles.totalAmount]}>
         <Text style={[styles.textRight, styles.fontBold]}>
           合計 {numberWithCommas(totalAmount)}円
+        </Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.textCentered}>
+          上記の金額を受領したことを証明します。
         </Text>
       </View>
       <View style={[styles.section, styles.fontThin]}>
