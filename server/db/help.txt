@@ -1,0 +1,8 @@
+
+// run drizzle-kit generate
+// run migration.ts file using runtime(bun) 
+
+TODO:
+  Need to make migration command more smarter
+
+

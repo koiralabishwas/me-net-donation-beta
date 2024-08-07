@@ -1,117 +1,234 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "5ab70715-1061-4905-a181-d4749af9a52d",
+  "id": "213ef42c-d512-491e-b5a8-819e213932c2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "donors": {
       "name": "donors",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "bigint",
+        "donor_id": {
+          "name": "donor_id",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": true
         },
-        "checkout_session_id": {
-          "name": "checkout_session_id",
-          "type": "varchar(500)",
+        "donor_external_id": {
+          "name": "donor_external_id",
+          "type": "varchar(36)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "name": {
           "name": "name",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "is_corporate": {
-          "name": "is_corporate",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": false
-        },
-        "corporate_number": {
-          "name": "corporate_number",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "email": {
           "name": "email",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(11)",
+          "type": "varchar(15)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "country": {
-          "name": "country",
-          "type": "varchar(256)",
+        "country_code": {
+          "name": "country_code",
+          "type": "varchar(2)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "postal_code": {
           "name": "postal_code",
-          "type": "varchar(256)",
+          "type": "varchar(10)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "address": {
           "name": "address",
-          "type": "varchar(500)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "amount": {
-          "name": "amount",
-          "type": "int unsigned",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "selected_project": {
-          "name": "selected_project",
-          "type": "varchar(100)",
-          "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "is_public": {
           "name": "is_public",
-          "type": "boolean",
+          "type": "tinyint unsigned",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false,
-          "default": false
+          "default": 0
         },
         "display_name": {
           "name": "display_name",
-          "type": "varchar(300)",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "corporate_no": {
+          "name": "corporate_no",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "message": {
           "name": "message",
-          "type": "varchar(1000)",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
+          "autoincrement": false
+        },
+        "stripe_webhook_customer_object": {
+          "name": "stripe_webhook_customer_object",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "donor_external_id_idx": {
+          "name": "donor_external_id_idx",
+          "columns": [
+            "donor_external_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "donors_donor_id": {
+          "name": "donors_donor_id",
+          "columns": [
+            "donor_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "donors_donor_external_id_unique": {
+          "name": "donors_donor_external_id_unique",
+          "columns": [
+            "donor_external_id"
+          ]
+        },
+        "donors_email_unique": {
+          "name": "donors_email_unique",
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    },
+    "transaction": {
+      "name": "transaction",
+      "columns": {
+        "transaction_id": {
+          "name": "transaction_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "donation_id": {
+          "name": "donation_id",
+          "type": "varchar(15)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "donor_id": {
+          "name": "donor_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "donor_external_id": {
+          "name": "donor_external_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "donation_project": {
+          "name": "donation_project",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "amount": {
+          "name": "amount",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currency": {
+          "name": "currency",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "is_cancelled": {
+          "name": "is_cancelled",
+          "type": "tinyint",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 0
+        },
+        "tax_deduction_certificate_url": {
+          "name": "tax_deduction_certificate_url",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "stript_webhook_object": {
+          "name": "stript_webhook_object",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "created_at": {
@@ -131,17 +248,53 @@
           "default": "(now())"
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "donors_id": {
-          "name": "donors_id",
+      "indexes": {
+        "donor_id_idx": {
+          "name": "donor_id_idx",
           "columns": [
-            "id"
+            "donor_id"
+          ],
+          "isUnique": false
+        },
+        "donation_id_idx": {
+          "name": "donation_id_idx",
+          "columns": [
+            "donation_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "transaction_donor_id_donors_donor_id_fk": {
+          "name": "transaction_donor_id_donors_donor_id_fk",
+          "tableFrom": "transaction",
+          "tableTo": "donors",
+          "columnsFrom": [
+            "donor_id"
+          ],
+          "columnsTo": [
+            "donor_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "transaction_transaction_id": {
+          "name": "transaction_transaction_id",
+          "columns": [
+            "transaction_id"
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "transaction_donation_id_unique": {
+          "name": "transaction_donation_id_unique",
+          "columns": [
+            "donation_id"
+          ]
+        }
+      }
     }
   },
   "_meta": {
