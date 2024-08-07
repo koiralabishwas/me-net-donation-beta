@@ -4,184 +4,255 @@ import {
   Page,
   Text,
   View,
+  Image,
   Document,
   StyleSheet,
-  PDFDownloadLink,
   Font,
 } from "@react-pdf/renderer";
-import NotoSansJp from "@/app/fonts/NotoSansJP-Regular.ttf";
+import { dateInJapanese, yearInJapanese } from "@/app/utils/date";
+
+import NotoSansJP from "@/public/fonts/NotoSansJP-Regular.ttf";
+import NotoSansJPBold from "@/public/fonts/NotoSansJP-Bold.ttf";
+import NotoSansJPThin from "@/public/fonts/NotoSansJP-Thin.ttf";
+import MEnetLogo from "@/public/logo.png";
+import { numberWithCommas } from "../utils/number";
+import { data } from "./data";
+
+const FILE_NAME = `${yearInJapanese(new Date())}_ME-net寄附控除証明書`;
 
 Font.register({
   family: "NotoSansJP",
-  src: NotoSansJp,
-  fontStyle: "normal",
+  fonts: [
+    {
+      src: NotoSansJP,
+      fontStyle: "normal",
+      fontWeight: "normal",
+    },
+    {
+      src: NotoSansJPBold,
+      fontStyle: "normal",
+      fontWeight: "bold",
+    },
+    {
+      src: NotoSansJPThin,
+      fontStyle: "normal",
+      fontWeight: "thin",
+    },
+  ],
 });
 
 const styles = StyleSheet.create({
-  title: {
+  page: {
     fontFamily: "NotoSansJP",
+    flexDirection: "column",
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    margin: 0,
+  },
+  title: {
     fontSize: 18,
     textAlign: "center",
     marginBottom: 10,
   },
-  secondTitle: {
-    fontFamily: "NotoSansJP",
+  subTitle: {
     fontSize: 15,
     textAlign: "center",
     marginBottom: 10,
   },
-  centeredText: {
-    fontFamily: "NotoSansJP",
-    fontSize: 12,
+  text: {
+    fontSize: 10,
+    marginBottom: 5,
+  },
+  textCentered: {
+    fontSize: 10,
     marginBottom: 5,
     textAlign: "center",
   },
-  rightText: {
-    fontFamily: "NotoSansJP",
-    fontSize: 12,
+  textRight: {
+    fontSize: 10,
     marginBottom: 5,
     textAlign: "right",
   },
-  text: {
-    fontFamily: "NotoSansJP",
-    fontSize: 12,
-    marginBottom: 5,
+  fontBold: {
+    fontWeight: "bold",
   },
-  page: {
-    fontFamily: "NotoSansJP",
-    flexDirection: "column",
-    padding: 20,
+  fontThin: {
+    fontWeight: "thin",
   },
   section: {
-    margin: 10,
+    padding: 10,
+  },
+  sectionFlex: {
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  sectionBox: {
+    padding: 10,
+    borderRadius: 10,
+  },
+  backgroundPrimary: {
+    backgroundColor: "#fafafa",
+  },
+  backgroundDanger: {
+    backgroundColor: "#fff1f2",
+  },
+  leftColumn: {
+    flex: 1,
+    marginRight: 10,
+  },
+  rightColumn: {
+    flex: 1,
+    marginLeft: 10,
+    alignItems: "flex-end",
+  },
+  logo: {
+    width: "68px",
+    height: "68px",
+  },
+  logoWrapper: {
+    paddingRight: 10,
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
   table: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
   },
-  tableRow: {
+  tableHeader: {
+    flexDirection: "row",
+    backgroundColor: "#eef2ff",
+  },
+  tableBody: {
     flexDirection: "row",
   },
   tableCol: {
     width: "25%",
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
     padding: 5,
+    borderBottomStyle: "solid",
+    borderBottomWidth: 1,
+    borderBottomColor: "#f5f5f5",
   },
   tableCell: {
     fontSize: 10,
   },
-  totalRow: {
-    flexDirection: "row",
-    borderTopWidth: 1,
-    borderStyle: "solid",
-  },
-  totalCol: {
-    width: "75%",
-    padding: 5,
-    borderStyle: "solid",
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-  },
-  idTotalCol: {
-    width: "75%",
-    padding: 2,
-    borderStyle: "solid",
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-  },
-  totalAmountCol: {
-    width: "25%",
-    padding: 5,
-    borderStyle: "solid",
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-    textAlign: "right",
-  },
 });
 
-// Example data
-const data = {
-  donationNumber: "12314134",
-  donorName: "山田太郎",
-  totalAmount: 1123,
-  details: [
-    { id: "001", date: "2024/01/15", type: "サブスクリプション", amount: 500 , project : "オルタボイス" },
-    { id: "002", date: "2024/02/20", type: "ワンタイム", amount: 623 , project : "土曜教室" },
-  ],
-};
-
-// Format current date as ２０XX年YY月ZZ日
-const formatDate = (date : Date) => {
-  const year = date.getFullYear().toString();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const day = date.getDate().toString().padStart(2, "0");
-  return `${year}年${month}月${day}日`;
-};
-
+const totalAmount = data.details.reduce((acc, cur) => acc + cur.amount, 0);
 
 const DonationCertificate = () => (
-  <Document>
-    <Page size="A4" style={styles.page}>
+  <Document title={FILE_NAME}>
+    <Page size="A4" orientation="portrait" style={styles.page}>
       <View style={styles.section}>
-        <Text style={styles.secondTitle}>{new Date().getUTCFullYear()}年分 寄付金控除に関する証明書</Text>
-        <Text style={styles.centeredText}>(認定NPO法人 多文化共生教育ネットワークかながわに対する寄付金)</Text>
+        <Text style={styles.textRight}>{dateInJapanese(new Date())}</Text>
+        <Text style={styles.subTitle}>
+          {yearInJapanese(new Date())}分寄附金受領証明書
+        </Text>
+      </View>
+      <View style={styles.sectionFlex}>
+        <View style={styles.leftColumn}>
+          <Text style={styles.text}>{data.postalCode}</Text>
+          <Text style={styles.text}>{data.address}</Text>
+          <Text style={styles.text}>{data.donorName} 様</Text>
+        </View>
+        <View style={[styles.rightColumn, styles.logoWrapper]}>
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <Image src={MEnetLogo.src} style={styles.logo} />
+        </View>
       </View>
       <View style={styles.section}>
-        <Text style={styles.text}>寄付者名: {data.donorName}</Text>
-        <Text style={styles.text}>寄付者ID: {data.donationNumber}</Text>
-        <Text style={styles.text}>{new Date().getUTCFullYear()}年間寄付金額: {data.totalAmount}円</Text>
+        <Text style={styles.textRight}>認定通知書の番号 市市活第502号</Text>
+        <Text style={styles.textRight}>認定年月日 令和6年4月10日</Text>
+        <Text style={styles.textRight}>
+          神奈川県横浜市栄区小菅ヶ谷一丁目2-1
+        </Text>
+        <Text style={styles.textRight}>
+          地球市民かながわプラザ NPOなどのための事務室内
+        </Text>
+        <Text style={styles.textRight}>
+          認定NPO法人多文化共生教育ネットワークかながわ
+        </Text>
+        <Text style={styles.textRight}>理事長 武 一美</Text>
+      </View>
+      <View style={[styles.sectionBox, styles.backgroundPrimary]}>
+        <Text style={styles.textCentered}>
+          平素は当法人の活動にご理解、ご協力を賜り、厚く御礼申し上げます。
+        </Text>
+        <Text style={styles.textCentered}>
+          頂戴した貴重なご寄附は、当団体の諸事業の運営に有効に使わせて頂きます。
+        </Text>
+        <Text style={styles.textCentered}>
+          今後とも、変わらぬご支援、ご協力をどうぞよろしくお願い申し上げます。
+        </Text>
       </View>
       <View style={styles.section}>
-        <Text style={styles.centeredText}>上記の寄付者から寄付が行われたことを証明する</Text>
-      </View>
-      
-      <View style={styles.section}>
-        <Text style={styles.rightText}>{new Date().getUTCFullYear()}年{new Date().getUTCMonth()}月{new Date().getUTCDate()}日</Text>
-        <Text style={styles.rightText}>認定NPO法人 多文化共生教育ネットワークかながわ</Text>
-        <Text style={styles.rightText}>法人番号:{"123XXXXXX"}</Text>
-      </View>
-
-
-      <View style={styles.section}>
-        <Text style={styles.text}>⇒寄付の内訳</Text>
         <View style={styles.table}>
+          <View style={styles.tableBody}>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>寄附者ID</Text>
+              <Text style={styles.tableCell}>寄附者住所</Text>
+              <Text style={styles.tableCell}>寄附者氏名</Text>
+              <Text style={styles.tableCell}>寄附者法人番号</Text>
+              <Text style={styles.tableCell}>年間寄附額</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{data.donor_external_id}</Text>
+              <Text style={styles.tableCell}>{data.address}</Text>
+              <Text style={styles.tableCell}>{data.donorName}</Text>
+              <Text style={styles.tableCell}>123456987</Text>
+              <Text style={styles.tableCell}>
+                {numberWithCommas(totalAmount)}円
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.textCentered}>
+          上記の寄附者から、租税特別措置法第41条の18の2第1項及び同法第66条の11の2第2項
+        </Text>
+        <Text style={styles.textCentered}>
+          に規定する特定非営利活動に係る事業に関連する寄附に係る支出金に該当することを証明いたします。
+        </Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.text}>◯ 寄附の内訳</Text>
+        <View style={[styles.table, styles.textCentered]}>
           {/* Table Header */}
-          <View style={styles.tableRow}>
+          <View style={styles.tableHeader}>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>寄付ID</Text>
+              <Text style={styles.tableCell}>寄附年月日</Text>
             </View>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>寄付事業</Text>
+              <Text style={styles.tableCell}>寄附ID</Text>
             </View>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>寄付年月日</Text>
+              <Text style={styles.tableCell}>寄附事業</Text>
             </View>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>寄付種類</Text>
+              <Text style={styles.tableCell}>寄附種類</Text>
             </View>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>金額</Text>
+              <Text style={styles.tableCell}>寄附金額</Text>
             </View>
           </View>
           {/* Table Data */}
           {data.details.map((item, index) => (
-            <View style={styles.tableRow} key={index}>
+            <View style={styles.tableBody} key={index}>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>
+                  {dateInJapanese(new Date(item.date))}
+                </Text>
+              </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{item.id}</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{item.project}</Text>
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>{item.date}</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{item.type}</Text>
@@ -192,14 +263,14 @@ const DonationCertificate = () => (
             </View>
           ))}
         </View>
-        {/* <View style={styles.totalRow}>
-          <View style={styles.totalCol}>
-            <Text style={styles.tableCell}>合計</Text>
-          </View>
-          <View style={styles.totalAmountCol}>
-            <Text style={styles.tableCell}>{data.totalAmount}円</Text>
-          </View>
-        </View> */}
+      </View>
+      <View style={[styles.sectionBox, styles.backgroundDanger]}>
+        <Text style={styles.textCentered}>
+          寄附金の支出による税制上の優遇措置の適用を受けるためには、確定申告等が必要です。
+        </Text>
+        <Text style={styles.textCentered}>
+          申告の際、この「寄附金受領証明書」が必要となりますので、大切に保存してください。
+        </Text>
       </View>
     </Page>
   </Document>
