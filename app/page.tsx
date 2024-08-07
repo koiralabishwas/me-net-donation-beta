@@ -1,13 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DonationForm from "@/components/DonationForm";
 import ProductList from "@/components/ProductList";
-export default function Home() {
+import { connection, db } from "@/server/db/db";
+export default async function Home() {
   const [selectedProduct, setSelectedProduct] = useState<string>("");
 
   const handleProductSelect = (productId: string) => {
     setSelectedProduct(productId);
   };
+
+
 
   return (
     <div>
