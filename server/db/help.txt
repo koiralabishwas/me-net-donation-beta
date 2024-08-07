@@ -1,8 +1,10 @@
 
 // run drizzle-kit generate
-// run migration.ts file using runtime(bun) 
+// drizzle-kit migrate
 
 TODO:
   Need to make migration command more smarter
+
+  1.In drizzle.config.ts , it does not reads env files but works when hard codded
 
 
