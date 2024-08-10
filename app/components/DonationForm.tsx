@@ -43,7 +43,7 @@ const DonationForm = ({ productId }: Props) => {
         phone: "08035118306",
       },
       price: 9999,
-      product_id: "prod_Q2GxSqbpfzdba4",
+      product_id: "prod_QdR5Wd8GjakPq5",
     },
     resolver: zodResolver(requestBodySchema),
   });
