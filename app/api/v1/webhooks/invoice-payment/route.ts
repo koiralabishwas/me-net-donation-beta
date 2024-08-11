@@ -1,67 +1,47 @@
+import { NextResponse, NextRequest } from 'next/server';
+import Stripe from 'stripe';
 
-// // server.js
-// //
-// // Use this sample code to handle webhook events in your integration.
-// //
-// // 1) Paste this code into a new file (server.js)
-// //
-// // 2) Install dependencies
-// //   npm install stripe
-// //   npm install express
-// //
-// // 3) Run the server on http://localhost:4242
-// //   node server.js
+/**
+ * Webhook handler for `invoice.paid` events
+ */
 
-// // The library needs to be configured with your account's secret key.
-// // Ensure the key is kept out of any version control system you might be using.
-// const stripe = require('stripe')('sk_test_...');
-// const express = require('express');
-// const app = express();
+/**
+ * When testing the webhook locally, use the Stripe CLI:
+ * stripe listen --forward-to localhost:3000/api/v1/webhook
+ * to forward events to your local server.
+ */
 
-
-// // This is your Stripe CLI webhook secret for testing your endpoint locally.
-// const endpointSecret = "whsec_66d1bc562f01853a93c4c10ab740b0bbd30aa4084a2fd9e5a300473917bc2f8f";
-
-// app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
-//   const sig = request.headers['stripe-signature'];
-
-//   let event;
-
-//   try {
-//     event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-//   } catch (err) {
-//     response.status(400).send(`Webhook Error: ${err.message}`);
-//     return
-//   }
-
-//   // Handle the event
-//   switch (event.type) {
-//     case 'invoice.payment_succeeded':
-//       const invoicePaymentSucceeded = event.data.object;
-//       // Then define and call a function to handle the event invoice.payment_succeeded
-//       break;
-//     // ... handle other event types
-//     default:
-//       console.log(`Unhandled event type ${event.type}`);
-//   }
-
-//   // Return a 200 response to acknowledge receipt of the event
-//   response.send();
-// });
-
-// app.listen(4242, () => console.log('Running on port 4242'));
-
-import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
-
-export async function POST(request:NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const event = (await request.json()) as Stripe
+    const event = (await request.json()) as Stripe.Event;
 
-    NextResponse.json(event)
-    
-  
-} catch (err) {
-  NextResponse.json({"ERR" : err , status : 501 , message : "Errors Caught"})
-}
+    if (event.type !== 'invoice.paid') {
+      return NextResponse.json({
+        status: 400,
+        error: 'Bad Request. Unsupported event type',
+      });
+    }
+
+    const invoice = event.data.object as Stripe.Invoice;
+    const { customer_email } = invoice;
+
+    if (!customer_email || customer_email.length === 0) {
+      return NextResponse.json({
+        status: 400,
+        error: 'Bad Request. Customer email not found',
+      });
+    }
+
+    return NextResponse.json({
+      status: 200,
+      message: 'Webhook processed successfully, invoice paid.',
+      invoice,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      status: 500,
+      message: 'Server error',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
 }
