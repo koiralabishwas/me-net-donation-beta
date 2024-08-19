@@ -1,6 +1,6 @@
 
-// run drizzle-kit generate
-// drizzle-kit migrate
+// bunx run drizzle-kit generate
+// bunx drizzle-kit migrate
 
 TODO:
   Need to make migration command more smarter
