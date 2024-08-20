@@ -3,25 +3,28 @@ import { donor } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { donorSchema } from "./donor.schema";
+import { error } from "console";
 
-// Define the Zod schema for validation
-const donorSchema = z.object({
-  checkout_session_id: z.string().max(500),
-  name: z.string().max(256),
-  is_corporate: z.boolean(),
-  corporate_number: z.string().optional(),
-  email: z.string().email().max(256),
-  phone: z.string().max(15),
-  country_code: z.string().max(2),
-  postal_code: z.string().max(10),
-  address: z.string().max(255),
-  amount: z.number().nonnegative(),
-  selected_project: z.string().max(100),
-  is_public: z.boolean().default(false),
-  display_name: z.string().max(255),
-  message: z.string().max(1000).optional(),
-});
-type DonorSchema = z.infer<typeof donorSchema>;
+
+
+export async function POST(req : NextRequest , res : NextResponse) {
+ const body = await req.json()
+ const validation = donorSchema.safeParse(body)
+
+ if (!validation.success) {
+  return NextResponse.json(validation.error.errors, { status: 400 });
+ }
+
+ try {
+  const data = await db.insert(donor).values(body).execute()
+  return NextResponse.json({status : 201 , inserted : data})
+ } catch (e) {
+  return NextResponse.json({status : 500 , error : e})
+ }
+  
+}
+
 
 export async function GET() {
   try {

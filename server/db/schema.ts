@@ -131,3 +131,5 @@ export const transaction = mysqlTable(
 export type Donor = typeof donor;
 export type Transaction = typeof transaction;
 export type Subscription = typeof subscription;
+
+;
