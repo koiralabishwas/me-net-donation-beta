@@ -34,6 +34,7 @@ export const donor = mysqlTable(
     phone: varchar("phone", { length: 15 }).notNull(),
     country_code: varchar("country_code", { length: 2 }).notNull(),
     postal_code: varchar("postal_code", { length: 10 }).notNull(),
+    address : varchar("address", { length: 255 }).notNull(),
     is_public: tinyint("is_public", { unsigned: true }).notNull(),
     display_name: varchar("display_name", { length: 255 }),
     corporate_number: varchar("corporate_number", { length: 20 }),
@@ -86,15 +87,14 @@ export const subscription = mysqlTable(
     };
   }
 );
-
-export const transaction = mysqlTable(
+export const donation = mysqlTable(
   "transaction",
   {
-    transaction_id: bigint("transaction_id", { mode: "bigint", unsigned: true })
+    donation_id: bigint("transaction_id", { mode: "bigint", unsigned: true })
       .notNull()
       .autoincrement()
       .primaryKey(),
-    donation_id: varchar("donation_id", { length: 15 }).notNull(),
+    donation_external_id: varchar("donation_id", { length: 15 }).notNull(),
     donor_id: bigint("donor_id", { mode: "bigint", unsigned: true }).notNull(),
     donor_external_id: varchar("donor_external_id", { length: 36 }).notNull(), // uuid
     //subscription_id入れたいけどWebhookがほぼ同時に来る関係でsubscription_external_idのみにする
@@ -129,7 +129,7 @@ export const transaction = mysqlTable(
 );
 
 export type Donor = typeof donor;
-export type Transaction = typeof transaction;
+export type Donation = typeof donation;
 export type Subscription = typeof subscription;
 
 ;
