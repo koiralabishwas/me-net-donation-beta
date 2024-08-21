@@ -39,7 +39,7 @@ export const donor = mysqlTable(
     display_name: varchar("display_name", { length: 255 }),
     corporate_number: varchar("corporate_number", { length: 20 }),
     message: text("message"),
-    stripe_customer_object: json("stripe_customer_object"),
+    // stripe_customer_object: json("stripe_customer_object"),
     created_at: timestamp("created_at", { mode: "date" }).defaultNow(),
     updated_at: timestamp("updated_at", { mode: "date" }).onUpdateNow(),
   },
@@ -75,7 +75,7 @@ export const subscription = mysqlTable(
     is_cancelled: tinyint("is_cancelled", { unsigned: true })
       .notNull()
       .default(0),
-    stripe_subscription_object: json("stripe_subscription_object"),
+    // stripe_subscription_object: json("stripe_subscription_object"),
     created_at: timestamp("created_at", { mode: "date" }).defaultNow(),
     updated_at: timestamp("updated_at", { mode: "date" }).onUpdateNow(),
   },
@@ -114,7 +114,7 @@ export const donation = mysqlTable(
     tax_deduction_certificate_url: varchar("tax_deduction_certificate_url", {
       length: 1023,
     }).notNull(),
-    stripe_object: json("stripe_object"), //"一回の場合はpayment_intent、毎月の場合はinvoiceのobjectを保存"
+    // stripe_object: json("stripe_object"), //"一回の場合はpayment_intent、毎月の場合はinvoiceのobjectを保存"
     created_at: timestamp("created_at", { mode: "date" }).defaultNow(),
     updated_at: timestamp("updated_at", { mode: "date" }).onUpdateNow(),
   },

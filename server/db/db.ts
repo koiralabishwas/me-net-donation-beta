@@ -9,16 +9,11 @@ export const dbParams = {
   database: process.env.MYSQL_DATABASE as string,
   password: process.env.MYSQL_PASSWORD as string,
   port: Number(process.env.MYSQL_PORT),
-  // ssl : {
-  //   ca : '',
-  //   cert : '' ,
-  //   key : '' ,
-
-  // },
   waitForConnections: true,
   connectionLimit: 100,
   queueLimit: 0,
   multipleStatements: true,
+  connectionTimeout : 60000,
   
 };
 
