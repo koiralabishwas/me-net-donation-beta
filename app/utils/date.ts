@@ -17,3 +17,12 @@ export const yearInJapanese = (date: Date) => {
   const yearIndex = dateInJapanese(date).indexOf("年");
   return dateInJapanese(date).substring(0, yearIndex + 1);
 };
+
+/**
+ * @param date
+ * @returns 令和X年
+ */
+export const yearMonthInJapanese = (date: Date) => {
+  const yearIndex = dateInJapanese(date).indexOf("月");
+  return dateInJapanese(date).substring(0, yearIndex + 1);
+};

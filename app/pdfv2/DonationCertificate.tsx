@@ -9,7 +9,11 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-import { dateInJapanese, yearInJapanese } from "@/app/utils/date";
+import {
+  dateInJapanese,
+  yearInJapanese,
+  yearMonthInJapanese,
+} from "@/app/utils/date";
 
 import NotoSansJP from "@/public/fonts/NotoSansJP-Regular.ttf";
 import NotoSansJPBold from "@/public/fonts/NotoSansJP-Bold.ttf";
@@ -93,9 +97,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-  backgroundPrimary: {
-    backgroundColor: "#fafafa",
-  },
   backgroundDanger: {
     backgroundColor: "#fff1f2",
   },
@@ -148,10 +149,7 @@ const DonationCertificate = () => (
   <Document title={FILE_NAME}>
     <Page size="A4" orientation="portrait" style={styles.page}>
       <View style={styles.section}>
-        <Text style={styles.textRight}>{dateInJapanese(new Date())}</Text>
-        <Text style={styles.subTitle}>
-          {yearInJapanese(new Date())}分寄附金受領証明書
-        </Text>
+        <Text style={styles.textRight}>{yearMonthInJapanese(new Date())}</Text>
       </View>
       <View style={styles.sectionFlex}>
         <View style={styles.leftColumn}>
@@ -178,18 +176,26 @@ const DonationCertificate = () => (
         </Text>
         <Text style={styles.textRight}>理事長 武 一美</Text>
       </View>
-      <View style={[styles.sectionBox, styles.backgroundPrimary]}>
-        <Text style={styles.textCentered}>
+      <View style={[styles.sectionBox]}>
+        <Text style={styles.text}>
           平素は当法人の活動にご理解、ご協力を賜り、厚く御礼申し上げます。
         </Text>
-        <Text style={styles.textCentered}>
+        <Text style={styles.text}>
           頂戴した貴重なご寄附は、当団体の諸事業の運営に有効に使わせて頂きます。
         </Text>
-        <Text style={styles.textCentered}>
+        <Text style={styles.text}>
           今後とも、変わらぬご支援、ご協力をどうぞよろしくお願い申し上げます。
         </Text>
       </View>
       <View style={styles.section}>
+        <Text style={styles.textCentered}>
+          --------------------------------------------------------------------------------------------------------------
+        </Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={[styles.subTitle, styles.fontBold]}>
+          {yearInJapanese(new Date())}分寄附金受領証明書
+        </Text>
         <View style={styles.table}>
           <View style={styles.tableBody}>
             <View style={styles.tableCol}>
@@ -216,7 +222,7 @@ const DonationCertificate = () => (
           上記の寄附者から、租税特別措置法第41条の18の2第1項及び同法第66条の11の2第2項
         </Text>
         <Text style={styles.textCentered}>
-          に規定する特定非営利活動に係る事業に関連する寄附に係る支出金に該当することを証明いたします。
+          に規定する特定非営利活動に係る事業に関連する寄附に係る支出金に該当することを証明致します。
         </Text>
       </View>
       <View style={styles.section}>
@@ -258,7 +264,9 @@ const DonationCertificate = () => (
                 <Text style={styles.tableCell}>{item.type}</Text>
               </View>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>{item.amount}円</Text>
+                <Text style={styles.tableCell}>
+                  {numberWithCommas(item.amount)}円
+                </Text>
               </View>
             </View>
           ))}
