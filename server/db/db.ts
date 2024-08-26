@@ -10,9 +10,11 @@ export const dbParams = {
   password: process.env.MYSQL_PASSWORD as string,
   port: Number(process.env.MYSQL_PORT),
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: 100,
   queueLimit: 0,
   multipleStatements: true,
+  connectionTimeout : 60000,
+  
 };
 
 export const connection = await mysql.createConnection(dbParams);

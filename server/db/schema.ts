@@ -34,11 +34,12 @@ export const donor = mysqlTable(
     phone: varchar("phone", { length: 15 }).notNull(),
     country_code: varchar("country_code", { length: 2 }).notNull(),
     postal_code: varchar("postal_code", { length: 10 }).notNull(),
+    address : varchar("address", { length: 255 }).notNull(),
     is_public: tinyint("is_public", { unsigned: true }).notNull(),
     display_name: varchar("display_name", { length: 255 }),
     corporate_number: varchar("corporate_number", { length: 20 }),
     message: text("message"),
-    stripe_customer_object: json("stripe_customer_object"),
+    // stripe_customer_object: json("stripe_customer_object"),
     created_at: timestamp("created_at", { mode: "date" }).defaultNow(),
     updated_at: timestamp("updated_at", { mode: "date" }).onUpdateNow(),
   },
@@ -74,7 +75,7 @@ export const subscription = mysqlTable(
     is_cancelled: tinyint("is_cancelled", { unsigned: true })
       .notNull()
       .default(0),
-    stripe_subscription_object: json("stripe_subscription_object"),
+    // stripe_subscription_object: json("stripe_subscription_object"),
     created_at: timestamp("created_at", { mode: "date" }).defaultNow(),
     updated_at: timestamp("updated_at", { mode: "date" }).onUpdateNow(),
   },
@@ -86,15 +87,14 @@ export const subscription = mysqlTable(
     };
   }
 );
-
-export const transaction = mysqlTable(
+export const donation = mysqlTable(
   "transaction",
   {
-    transaction_id: bigint("transaction_id", { mode: "bigint", unsigned: true })
+    donation_id: bigint("transaction_id", { mode: "bigint", unsigned: true })
       .notNull()
       .autoincrement()
       .primaryKey(),
-    donation_id: varchar("donation_id", { length: 15 }).notNull(),
+    donation_external_id: varchar("donation_id", { length: 15 }).notNull(),
     donor_id: bigint("donor_id", { mode: "bigint", unsigned: true }).notNull(),
     donor_external_id: varchar("donor_external_id", { length: 36 }).notNull(), // uuid
     //subscription_id入れたいけどWebhookがほぼ同時に来る関係でsubscription_external_idのみにする
@@ -114,7 +114,7 @@ export const transaction = mysqlTable(
     tax_deduction_certificate_url: varchar("tax_deduction_certificate_url", {
       length: 1023,
     }).notNull(),
-    stripe_object: json("stripe_object"), //"一回の場合はpayment_intent、毎月の場合はinvoiceのobjectを保存"
+    // stripe_object: json("stripe_object"), //"一回の場合はpayment_intent、毎月の場合はinvoiceのobjectを保存"
     created_at: timestamp("created_at", { mode: "date" }).defaultNow(),
     updated_at: timestamp("updated_at", { mode: "date" }).onUpdateNow(),
   },
@@ -129,7 +129,7 @@ export const transaction = mysqlTable(
 );
 
 export type Donor = typeof donor;
-export type Transaction = typeof transaction;
+export type Donation = typeof donation;
 export type Subscription = typeof subscription;
 
 ;

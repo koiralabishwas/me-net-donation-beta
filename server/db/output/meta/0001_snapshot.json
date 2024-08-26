@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "a9a13a20-3995-457c-8634-f0d15e511685",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "7af57eac-3ac1-48b8-b1e9-c0a117ca0048",
+  "prevId": "a9a13a20-3995-457c-8634-f0d15e511685",
   "tables": {
     "transaction": {
       "name": "transaction",
@@ -82,13 +82,6 @@
           "type": "varchar(1023)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "stripe_object": {
-          "name": "stripe_object",
-          "type": "json",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "created_at": {
@@ -229,13 +222,6 @@
           "notNull": false,
           "autoincrement": false
         },
-        "stripe_customer_object": {
-          "name": "stripe_customer_object",
-          "type": "json",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
@@ -352,13 +338,6 @@
           "notNull": true,
           "autoincrement": false,
           "default": 0
-        },
-        "stripe_subscription_object": {
-          "name": "stripe_subscription_object",
-          "type": "json",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
